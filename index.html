@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>8x8 Dot Matrix HEX Generator</title>
+
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -22,6 +23,7 @@
 
   table {
     border-collapse: collapse;
+    margin-bottom: 20px;
   }
 
   td, th {
@@ -34,14 +36,23 @@
     background: #eee;
   }
 
+  pre {
+    background: #111;
+    color: #0f0;
+    padding: 12px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
   code {
     font-weight: bold;
   }
 </style>
 </head>
+
 <body>
 
-<h2>8×8 Dot Matrix HEX Generator</h2>
+<h2>8×8 Dot Matrix HEX Generator (v2)</h2>
 
 <div class="matrix" id="matrix"></div>
 
@@ -56,9 +67,13 @@
   <tbody id="output"></tbody>
 </table>
 
+<h3>C Array (copy & paste)</h3>
+<pre id="cArray"></pre>
+
 <script>
   const matrixDiv = document.getElementById("matrix");
   const outputBody = document.getElementById("output");
+  const cArrayPre = document.getElementById("cArray");
 
   const grid = [];
 
@@ -76,6 +91,7 @@
 
   function updateOutput() {
     outputBody.innerHTML = "";
+    let hexRows = [];
 
     for (let r = 0; r < 8; r++) {
       let binary = "";
@@ -84,7 +100,14 @@
         binary += grid[r][c].checked ? "1" : "0";
       }
 
-      const hex = "0x" + parseInt(binary, 2).toString(16).padStart(2, "0").toUpperCase();
+      const hex =
+        "0x" +
+        parseInt(binary, 2)
+          .toString(16)
+          .padStart(2, "0")
+          .toUpperCase();
+
+      hexRows.push(hex);
 
       const row = document.createElement("tr");
       row.innerHTML = `
@@ -94,6 +117,12 @@
       `;
       outputBody.appendChild(row);
     }
+
+    // Generate C-style array values only
+    cArrayPre.textContent =
+      "{\n  " +
+      hexRows.join(",\n  ") +
+      "\n}";
   }
 
   updateOutput();
