@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>8x8 Dot Matrix HEX Generator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(8, 30px);
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+
+  .matrix input {
+    width: 20px;
+    height: 20px;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td, th {
+    border: 1px solid #444;
+    padding: 6px 10px;
+    text-align: center;
+  }
+
+  th {
+    background: #eee;
+  }
+
+  code {
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h2>8×8 Dot Matrix HEX Generator</h2>
+
+<div class="matrix" id="matrix"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Row</th>
+      <th>Binary</th>
+      <th>HEX</th>
+    </tr>
+  </thead>
+  <tbody id="output"></tbody>
+</table>
+
+<script>
+  const matrixDiv = document.getElementById("matrix");
+  const outputBody = document.getElementById("output");
+
+  const grid = [];
+
+  // Create 8x8 checkbox grid
+  for (let r = 0; r < 8; r++) {
+    grid[r] = [];
+    for (let c = 0; c < 8; c++) {
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.addEventListener("change", updateOutput);
+      matrixDiv.appendChild(checkbox);
+      grid[r][c] = checkbox;
+    }
+  }
+
+  function updateOutput() {
+    outputBody.innerHTML = "";
+
+    for (let r = 0; r < 8; r++) {
+      let binary = "";
+
+      for (let c = 0; c < 8; c++) {
+        binary += grid[r][c].checked ? "1" : "0";
+      }
+
+      const hex = "0x" + parseInt(binary, 2).toString(16).padStart(2, "0").toUpperCase();
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${r}</td>
+        <td><code>${binary}</code></td>
+        <td><code>${hex}</code></td>
+      `;
+      outputBody.appendChild(row);
+    }
+  }
+
+  updateOutput();
+</script>
+
+</body>
+</html>
