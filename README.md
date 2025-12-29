@@ -24,9 +24,9 @@ Repository: https://github.com/aryakvn/8x8-dot-matrix/
 ## Demo / Usage
 
 1. Clone or download the repository:
-   ```bash
-   git clone https://github.com/aryakvn/8x8-dot-matrix.git
-````
+    ```bash
+      git clone https://github.com/aryakvn/8x8-dot-matrix.git
+    ```
 
 2. Open the HTML file in your browser:
 
